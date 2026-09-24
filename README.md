@@ -72,4 +72,4 @@ python run.py docker-logs     # 持續查看容器 log
 python run.py docker-down     # 停止並移除容器
 ```
 
-若 Docker Desktop 沒有執行，commit 仍會完成，但 hook 會顯示部署未執行。可用 `git commit --no-verify` 暫時略過 hooks。
+若 Docker Desktop 沒有執行，commit 仍會完成，但 hook 會顯示部署未執行。需要暫時略過部署時可執行 `SKIP_DOCKER_DEPLOY=1 git commit`。

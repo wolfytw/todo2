@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "${SKIP_DOCKER_DEPLOY:-0}" = "1" ]; then
+  echo "[auto-deploy] Skipped because SKIP_DOCKER_DEPLOY=1."
+  exit 0
+fi
+
 echo "[auto-deploy] Commit completed; deploying todo2 to Docker Desktop..."
 
 if ! command -v docker >/dev/null 2>&1; then
@@ -18,4 +23,3 @@ else
   echo "[auto-deploy] Deployment failed. Run: docker compose logs"
   exit 1
 fi
-
