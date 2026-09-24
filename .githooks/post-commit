@@ -1,0 +1,21 @@
+#!/bin/sh
+
+echo "[auto-deploy] Commit completed; deploying todo2 to Docker Desktop..."
+
+if ! command -v docker >/dev/null 2>&1; then
+  echo "[auto-deploy] Docker CLI was not found. Start or install Docker Desktop."
+  exit 1
+fi
+
+if ! docker info >/dev/null 2>&1; then
+  echo "[auto-deploy] Docker Desktop is not running. The commit was saved, but deployment was skipped."
+  exit 1
+fi
+
+if docker compose up --build --detach --remove-orphans --wait --wait-timeout 60; then
+  echo "[auto-deploy] Deployment ready at http://localhost:8000"
+else
+  echo "[auto-deploy] Deployment failed. Run: docker compose logs"
+  exit 1
+fi
+

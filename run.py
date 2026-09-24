@@ -7,6 +7,20 @@ COMMANDS: dict[str, list[str]] = {
     "test": [sys.executable, "-m", "pytest"],
     "lint": [sys.executable, "-m", "ruff", "check", "."],
     "format": [sys.executable, "-m", "ruff", "format", "."],
+    "setup-hooks": ["git", "config", "core.hooksPath", ".githooks"],
+    "docker-up": [
+        "docker",
+        "compose",
+        "up",
+        "--build",
+        "--detach",
+        "--remove-orphans",
+        "--wait",
+        "--wait-timeout",
+        "60",
+    ],
+    "docker-down": ["docker", "compose", "down"],
+    "docker-logs": ["docker", "compose", "logs", "--follow"],
 }
 
 
@@ -16,7 +30,9 @@ def main() -> int:
     args = parser.parse_args()
     if args.command == "help":
         parser.print_help()
-        print("\nCommands: dev, test, lint, format")
+        print(
+            "\nCommands: dev, test, lint, format, setup-hooks, docker-up, docker-down, docker-logs"
+        )
         return 0
     return subprocess.call(COMMANDS[args.command])
 

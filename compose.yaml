@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: .
+    image: todo2:local
+    container_name: todo2-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+

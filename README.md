@@ -54,16 +54,22 @@ image 從 GHCR 拉：第一次 CI 推送後，到 GitHub Packages 把 `todo-api`
 python run.py kind-down
 ```
 
-## PR Email 通知
+## Commit 後自動部署到 Docker Desktop
 
-`.github/workflows/pr-email.yml` 會在 PR 建立、重新開啟或由草稿轉為可審查時，寄送通知至 `wolfy@tien.tw`。請在 GitHub repository 的 **Settings → Secrets and variables → Actions** 建立以下 Repository secrets：
+先啟動 Docker Desktop，然後為這份 clone 啟用 repository 內的 Git hooks：
 
-| Secret | 說明 |
-|---|---|
-| `SMTP_HOST` | SMTP 主機，例如 `smtp.gmail.com` |
-| `SMTP_PORT` | `465`（SSL）或 `587`（STARTTLS） |
-| `SMTP_USERNAME` | SMTP 登入帳號 |
-| `SMTP_PASSWORD` | SMTP 密碼或 Gmail App Password |
-| `SMTP_FROM` | 寄件者 email；部分服務要求與登入帳號相同 |
+```bash
+python run.py setup-hooks
+```
 
-設定後可到 **Actions → PR email notification → Run workflow** 手動寄送測試信。Workflow 不會 checkout 或執行 PR 內容，以免來自 fork 的 PR 接觸 SMTP secrets。
+之後每次執行 `git commit`，`.githooks/post-commit` 都會自動執行 `docker compose up --build --detach --wait`，重新建置 image 並把 App 部署到 http://localhost:8000。這項設定只需在每份 clone 執行一次。
+
+常用維護指令：
+
+```bash
+python run.py docker-up       # 手動建置並啟動
+python run.py docker-logs     # 持續查看容器 log
+python run.py docker-down     # 停止並移除容器
+```
+
+若 Docker Desktop 沒有執行，commit 仍會完成，但 hook 會顯示部署未執行。可用 `git commit --no-verify` 暫時略過 hooks。
