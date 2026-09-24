@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Todo API</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <main>
+      <h1>待辦清單</h1>
+      <form id="todo-form">
+        <label class="sr-only" for="title">新增待辦</label>
+        <input id="title" maxlength="200" placeholder="要完成什麼？" required>
+        <button type="submit">新增</button>
+      </form>
+      <p id="summary">載入中…</p>
+      <ul id="todos"></ul>
+    </main>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
+
