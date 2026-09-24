@@ -6,7 +6,7 @@ input, button { font: inherit; padding: .7rem; }
 form input { flex: 1; }
 ul { padding: 0; }
 li { align-items: center; justify-content: space-between; padding: .75rem 0; border-bottom: 1px solid #ddd; }
-label { display: flex; align-items: center; gap: .6rem; }
+label { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+time { font-size: .8rem; color: #5d6875; text-decoration: none; }
 .completed { text-decoration: line-through; opacity: .55; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
-

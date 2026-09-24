@@ -27,6 +27,7 @@ class TodoStore:
                 title=data.title,
                 completed=False,
                 created_at=datetime.now(UTC),
+                completed_at=None,
             )
             self._items[todo.id] = todo
             self._next_id += 1
@@ -38,6 +39,8 @@ class TodoStore:
             if current is None:
                 return None
             changes = data.model_dump(exclude_none=True)
+            if data.completed is not None and data.completed != current.completed:
+                changes["completed_at"] = datetime.now(UTC) if data.completed else None
             updated = current.model_copy(update=changes) if changes else current
             self._items[todo_id] = updated
             return updated

@@ -37,6 +37,7 @@ class Todo(BaseModel):
     title: str
     completed: bool
     created_at: datetime
+    completed_at: datetime | None = None
 
 
 class TodoStats(BaseModel):

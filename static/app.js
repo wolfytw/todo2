@@ -31,8 +31,18 @@ async function render() {
       });
       await render();
     });
-    label.append(checkbox, document.createTextNode(todo.title));
-    if (todo.completed) label.classList.add("completed");
+    const title = document.createElement("span");
+    title.textContent = todo.title;
+    label.append(checkbox, title);
+    if (todo.completed) {
+      title.classList.add("completed");
+      if (todo.completed_at) {
+        const completedAt = document.createElement("time");
+        completedAt.dateTime = todo.completed_at;
+        completedAt.textContent = `完成於 ${new Date(todo.completed_at).toLocaleString()}`;
+        label.append(completedAt);
+      }
+    }
     const remove = document.createElement("button");
     remove.textContent = "刪除";
     remove.addEventListener("click", async () => {
@@ -55,4 +65,3 @@ form.addEventListener("submit", async (event) => {
 });
 
 render().catch(() => { summary.textContent = "無法載入資料"; });
-

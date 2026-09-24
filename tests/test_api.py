@@ -19,6 +19,7 @@ def test_todo_lifecycle_and_stats(client: TestClient) -> None:
     updated = client.patch(f"/api/todos/{todo_id}", json={"completed": True})
     assert updated.status_code == 200
     assert updated.json()["completed"] is True
+    assert updated.json()["completed_at"] is not None
     assert client.get("/stats").json()["completed"] == 1
 
     assert client.delete(f"/api/todos/{todo_id}").status_code == 204
@@ -40,3 +41,14 @@ def test_normalizes_title(client: TestClient) -> None:
     response = client.post("/api/todos", json={"title": "  Buy milk  "})
     assert response.status_code == 201
     assert response.json()["title"] == "Buy milk"
+
+
+def test_clears_completion_date_when_reopened(client: TestClient) -> None:
+    todo_id = client.post("/api/todos", json={"title": "Ship app"}).json()["id"]
+
+    completed = client.patch(f"/api/todos/{todo_id}", json={"completed": True}).json()
+    assert completed["completed_at"] is not None
+
+    reopened = client.patch(f"/api/todos/{todo_id}", json={"completed": False}).json()
+    assert reopened["completed"] is False
+    assert reopened["completed_at"] is None

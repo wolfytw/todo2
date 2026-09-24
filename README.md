@@ -16,7 +16,7 @@ python run.py dev    # = make dev；開 http://localhost:8000（前端頁）或 
 ```
 `run.py` 是 Makefile 的跨平台版（Windows 沒有 make）；`python run.py help` 列出全部指令。
 
-目前 API 提供 `GET/POST /api/todos`、`GET/PATCH/DELETE /api/todos/{id}`、`GET /stats` 與 `GET /health`。資料儲存在程序記憶體中，重新啟動服務後會清空，適合課程與本機開發用途。
+目前 API 提供 `GET/POST /api/todos`、`GET/PATCH/DELETE /api/todos/{id}`、`GET /stats` 與 `GET /health`。Todo 完成時會記錄 `completed_at` UTC 時間，取消完成時則自動清空。資料儲存在程序記憶體中，重新啟動服務後會清空，適合課程與本機開發用途。
 
 ## Windows 學員請先看
 - **建議用 WSL2**（Ubuntu）＋ Docker Desktop 的 WSL integration：Codex 官方支援 WSL2，且本專案的 `Makefile`、`scripts/*.sh`、Rules 範例（`rm -rf`）都是 Linux 指令，在 WSL2 裡跟 macOS 完全一致。
