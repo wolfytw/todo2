@@ -53,3 +53,17 @@ image 從 GHCR 拉：第一次 CI 推送後，到 GitHub Packages 把 `todo-api`
 ```bash
 python run.py kind-down
 ```
+
+## PR Email 通知
+
+`.github/workflows/pr-email.yml` 會在 PR 建立、重新開啟或由草稿轉為可審查時，寄送通知至 `wolfy@tien.tw`。請在 GitHub repository 的 **Settings → Secrets and variables → Actions** 建立以下 Repository secrets：
+
+| Secret | 說明 |
+|---|---|
+| `SMTP_HOST` | SMTP 主機，例如 `smtp.gmail.com` |
+| `SMTP_PORT` | `465`（SSL）或 `587`（STARTTLS） |
+| `SMTP_USERNAME` | SMTP 登入帳號 |
+| `SMTP_PASSWORD` | SMTP 密碼或 Gmail App Password |
+| `SMTP_FROM` | 寄件者 email；部分服務要求與登入帳號相同 |
+
+設定後可到 **Actions → PR email notification → Run workflow** 手動寄送測試信。Workflow 不會 checkout 或執行 PR 內容，以免來自 fork 的 PR 接觸 SMTP secrets。
